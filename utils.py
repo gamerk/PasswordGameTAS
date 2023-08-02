@@ -3,7 +3,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
-from bs4 import BeautifulSoup
 from info_tables import ELEMENTS, ROMAN_NUMERALS, LOCATIONS, CHESS_SOLUTIONS, YOUTUBE_LINKS
 import requests
 from datetime import datetime
@@ -13,6 +12,7 @@ import re
 from itertools import combinations
 from text_segments import UnsolvableException
 import win32api
+import time
 
 def set_password(driver: webdriver.Chrome, html: str):
     driver.execute_script(f'document.getElementsByClassName("ProseMirror")[0].innerHTML = \'{html}\'')
@@ -100,11 +100,14 @@ def win_set_time():
     NEW_TIME = (2023,   # Year
                 8,      # Month
                 1,      # Day
-                8,      # Hour
-                0,      # Minute
-                0,      # Second
+                1 + time.timezone // 3600 - time.daylight,      # Hour
+                0 + time.timezone % 3600 // 60,      # Minute
+                0 + time.timezone % 60,      # Second
                 0)      # Millisecond
     
     dayOfWeek = datetime(*NEW_TIME).isocalendar()[2]
     t = NEW_TIME[:2] + (dayOfWeek,) + NEW_TIME[2:]
     win32api.SetSystemTime(*t)
+
+if __name__ == "__main__":
+    win_set_time()

@@ -4,29 +4,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from time import sleep
 import utils
-from bs4 import BeautifulSoup
 from password import Password
 from text_segments import *
-from info_tables import YOUTUBE_LINKS, CHESS_SOLUTIONS, LOCATIONS
-from string import ascii_lowercase
 
-
-def _do_check():
-    
-    print(max(BaseTextSegment(sol).get_elm_sum() for sol in CHESS_SOLUTIONS))
-    
-    print(set(ascii_lowercase) - set(''.join(filter(lambda a: any(i in ascii_lowercase for i in a), map(str.lower, LOCATIONS.values())))))
-    
-    # for dur in YOUTUBE_LINKS:
-    #     seg = BaseTextSegment(YOUTUBE_LINKS[dur])
-    #     if seg.get_elm_sum() > 200:
-    #         print(f"Illegal URL: {seg.text!r} - {seg.get_elm_sum()}")
-    #     elif seg.get_elm_sum() > 177:
-    #         print(f"Iffy URL: {seg.text!r} - {seg.get_elm_sum()}")
-    #     elif seg.get_elm_sum() > 169:
-    #         print(f"Sorta Iffy URL: {seg.text!r} - {seg.get_elm_sum()}")
-            
-    raise Exception()
 
 if __name__ == "__main__":
     
@@ -47,6 +27,7 @@ if __name__ == "__main__":
                 BaseTextSegment("0", seg_type="Leap Year"),
                 BaseTextSegment("🥚🐛🐛🐛🐛🐛🐛", seg_type="Dave and Food"),
                 BaseTextSegment(WEIGHT_LIFTER * 3, seg_type="Strength"),
+                CurrentTime(),
             ])            
             driver = webdriver.Chrome()
 
@@ -86,9 +67,6 @@ if __name__ == "__main__":
                 
                 utils.set_password(driver, word.to_html())
                 word.append(PasswordLength(word))
-                utils.set_password(driver, word.to_html())
-                
-                word.append(CurrentTime())
                 utils.set_password(driver, word.to_html())
                 
                 WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, 'final-password')))
