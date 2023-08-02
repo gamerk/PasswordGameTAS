@@ -106,7 +106,7 @@ LOCATIONS = {
 }
 
 # Adapted from https://thepasswordgame.netlify.app/
-f = open("ytlinks2.json", "r")
+f = open("ytlinks_interp.json", "r")
 YOUTUBE_LINKS: dict[str, str] = json.load(f)
 f.close()
 

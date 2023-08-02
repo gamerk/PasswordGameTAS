@@ -47,10 +47,7 @@ if __name__ == "__main__":
                 BaseTextSegment("0", seg_type="Leap Year"),
                 BaseTextSegment("🥚🐛🐛🐛🐛🐛🐛", seg_type="Dave and Food"),
                 BaseTextSegment(WEIGHT_LIFTER * 3, seg_type="Strength"),
-            ])
-            
-            print(repr(WEIGHT_LIFTER.replace(WEIGHT_LIFTER, "W")))
-            
+            ])            
             driver = webdriver.Chrome()
 
             driver.get("https://neal.fun/password-game/")
@@ -102,8 +99,9 @@ if __name__ == "__main__":
                 continue
                 
             
-        except UnsolvableException:
+        except UnsolvableException as ue:
             solved = False
+            print(ue)
             driver.close()
         else:
             solved = True
