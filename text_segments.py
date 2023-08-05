@@ -118,7 +118,6 @@ class FillerElements(BaseTextSegment):
         self.needs_2_letter = needs_2_letter
         
     def modify_elm(self, change_needed: int, avoid_letters: str):
-        print("Modifying elements to sum:", self.get_elm_sum() + change_needed)
         self.text = FillerElements.solve_elements(self.get_elm_sum() + change_needed, avoid_letters, need_2_letter=self.needs_2_letter)
         
     def modify_letters(self, avoid: str):
@@ -136,10 +135,6 @@ class FillerElements(BaseTextSegment):
             
             if amount == 0:
                 break
-        
-        # if amount != 0:
-        #     print(result)
-        #     raise UnsolvableException(f"Could not solve for elements with conditions ({amount=} {avoid=} {need_2_letter=})")
         
         return ''.join(result)
 
@@ -168,7 +163,6 @@ class CaptchaSolution(BaseTextSegment):
             raise UnsolvableException("Failed to modify digits in captcha!")
     
     def modify_letters(self, avoid: str):
-        print("Mod letters in captcha")
         for _ in range(CaptchaSolution.REFRESH_ATTEMPTS):
             utils.refresh_captcha(self.driver)
             try:
@@ -239,7 +233,6 @@ class PasswordLength (BaseTextSegment):
                 # Combined emojis should only count as 1 each
                 lngth += len(seg.text.replace(WEIGHT_LIFTER, "W"))
         lngth += len(str(self._length))
-        print("Length is", lngth)
         
         if lngth != self._length:
             lngth -= len(str(self._length))
@@ -248,7 +241,6 @@ class PasswordLength (BaseTextSegment):
                                 key=lambda x: sum(int(i) for i in str(x) if i.isdigit()))
         
         self._last_text = str(self._length) + "." * (self._length - len(str(self._length)) - lngth)
-        print("Final length is", len(self._last_text.replace(WEIGHT_LIFTER, "W")))
         return self._last_text
             
     def modify_digits(self, change_needed: int):

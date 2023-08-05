@@ -48,13 +48,11 @@ if __name__ == "__main__":
                 
                 WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.rule.rule-error.fire")))
                 utils.set_password(driver, "<p>🥚</p>")
-                # sleep(0.1) # TODO: Wait until rule descriptor turns green or until new rule descriptor appears
                 WebDriverWait(driver, 3).until_not(EC.presence_of_element_located((By.CSS_SELECTOR, "div.rule.rule-error.fire")))
                 utils.set_password(driver, word.to_html())
                 
                 WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.rule.rule-error.youtube > div > div > :not(#youtube-player-wrapper)")))
                 WebDriverWait(driver, 3).until(lambda x: x.find_element(By.CSS_SELECTOR, "div.rule.rule-error.youtube > div > div > :not(#youtube-player-wrapper)").text)
-                print(BaseTextSegment(utils.get_youtube_link(driver), seg_type="Youtube Link").modDigits)
                 word.append(BaseTextSegment(utils.get_youtube_link(driver), seg_type="Youtube Link"))
                 utils.set_password(driver, word.to_html())
                 

@@ -48,7 +48,6 @@ class Password:
                 break
             
             if seg.modDigits and type(seg) is not CaptchaSolution:
-                print(seg, "Mod digits is", seg.modDigits)
                 seg.modify_digits(change_needed)
             elif type(seg) is CaptchaSolution:
                 captcha_seg = seg
@@ -77,15 +76,11 @@ class Password:
                 seg.needs_2_letter = not self.has_2_letter_elm()
             
             if seg.modElm:
-                print("Before:", seg.text)
                 seg.modify_elm(change_needed, self.sacrificed_letters)
-                print("After:", seg.text)
             
             change_needed = 200 - self.element_sum()
-            print("Change still needed:", change_needed)
         
         if change_needed != 0:
-            print(self.get_raw_text())
             raise UnsolvableException("Unable to balance element sum!")
         
     def contains_sacrificed(self, seg: BaseTextSegment):
@@ -108,7 +103,6 @@ class Password:
     
     def append(self, seg: BaseTextSegment):
         self.segments.append(seg)
-        print("Appending", seg)
         
         # Balance digits
         if self.digit_sum() != 25 and seg.modDigits:
@@ -156,6 +150,5 @@ class Password:
     
     def to_html(self):
         raw = self.get_raw_text()
-        print(f"Length ({len(raw)}): ", raw)
         styles = self.get_format()
         return ''.join(style.apply(char) for style, char in zip(styles, raw))

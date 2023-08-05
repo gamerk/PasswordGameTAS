@@ -54,7 +54,6 @@ def sacrifice_letters(driver: webdriver.Chrome, word: Password):
     
     # Find and remove 2 letters
     candidates = list(word.sacrifice_candidates())
-    print(candidates)
     if len(candidates) < 2:
         raise UnsolvableException("Unable to remove any letters!")
     
@@ -68,9 +67,7 @@ def sacrifice_letters(driver: webdriver.Chrome, word: Password):
             break
     else:
         raise UnsolvableException("Unable to remove any letters!")
-    
-    print("Sacrificing", word.sacrificed_letters)
-    
+        
     ac = ActionChains(driver)
     # Enter sacrificed letters into UI
     buttons = driver.find_elements(By.CSS_SELECTOR, ".letters > .letter")
@@ -85,7 +82,6 @@ def get_hex_color(driver: webdriver.Chrome):
     WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, 'rand-color')))
     color = driver.find_element(By.CLASS_NAME, 'rand-color').get_attribute("style")
     rgb = list(map(int, re.findall("\((\d+), (\d+), (\d+)\)", color)[0]))
-    print(color, rgb, hex((rgb[0] << 16) | (rgb[1] << 8) | (rgb[2]))[2:])
     return "#" + hex((rgb[0] << 16) | (rgb[1] << 8) | (rgb[2]))[2:].zfill(6)
 
 def refresh_hex_color(driver: webdriver.Chrome):
